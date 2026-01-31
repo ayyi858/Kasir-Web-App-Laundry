@@ -271,4 +271,4 @@ Untuk pertanyaan atau issue, silakan buat issue di repository ini.
 
 ---
 
-**Dibuat dengan ❤️ untuk usaha laundry di Indonesia**
+
