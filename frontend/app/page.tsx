@@ -28,7 +28,6 @@ export default function LoginPage() {
       
       if (err.response?.data) {
         const data = err.response.data;
-        // Handle non_field_errors
         if (data.non_field_errors && Array.isArray(data.non_field_errors)) {
           errorMsg = data.non_field_errors[0];
         } else if (data.message) {
@@ -36,7 +35,6 @@ export default function LoginPage() {
         } else if (data.error) {
           errorMsg = data.error;
         } else if (data.details) {
-          // Handle details object
           if (typeof data.details === 'string') {
             errorMsg = data.details;
           } else if (data.details.non_field_errors) {
@@ -44,7 +42,6 @@ export default function LoginPage() {
               ? data.details.non_field_errors[0] 
               : data.details.non_field_errors;
           } else if (typeof data.details === 'object') {
-            // Get first error from details
             const firstError = Object.values(data.details)[0];
             errorMsg = Array.isArray(firstError) ? firstError[0] : String(firstError);
           }
@@ -58,61 +55,68 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-blue-100">
-      <div className="bg-white p-8 rounded-lg shadow-xl w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-blue-600 mb-2">LAUNDRY EXPRESS</h1>
-          <p className="text-gray-600">Sistem Point of Sale</p>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="w-full max-w-sm">
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-3xl font-light text-gray-900 mb-2">Laundry Express</h1>
+          <p className="text-sm text-gray-500 font-light">Point of Sale System</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
+        {/* Login Form */}
+        <div className="bg-white rounded-lg border border-gray-200 p-8 shadow-sm">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 text-sm px-4 py-3 rounded">
+                {error}
+              </div>
+            )}
+
+            <div>
+              <label htmlFor="username" className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                Username
+              </label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition text-gray-900 placeholder-gray-400"
+                placeholder="Enter your username"
+                disabled={loading}
+              />
             </div>
-          )}
 
-          <div>
-            <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-              Username
-            </label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Masukkan username"
-            />
-          </div>
+            <div>
+              <label htmlFor="password" className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 transition text-gray-900 placeholder-gray-400"
+                placeholder="Enter your password"
+                disabled={loading}
+              />
+            </div>
 
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Masukkan password"
-            />
-          </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-gray-900 text-white py-3 px-4 rounded font-medium hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
+          </form>
+        </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition"
-          >
-            {loading ? 'Masuk...' : 'Masuk'}
-          </button>
-        </form>
-
-        <div className="mt-6 text-center text-sm text-gray-600">
-          {/* <p>Default: admin / admin123</p> */}
+        {/* Footer */}
+        <div className="mt-8 text-center">
+          <p className="text-xs text-gray-400">© 2024 Laundry Express</p>
         </div>
       </div>
     </div>

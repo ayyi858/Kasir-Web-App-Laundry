@@ -59,34 +59,34 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Mobile sidebar toggle */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 bg-white shadow-sm z-40 p-4 flex items-center justify-between">
-        <h1 className="text-xl font-bold text-blue-600">LAUNDRY EXPRESS</h1>
+      <div className="lg:hidden fixed top-0 left-0 right-0 bg-white border-b border-gray-200 z-40 p-4 flex items-center justify-between">
+        <h1 className="text-lg font-light text-gray-900">Laundry Express</h1>
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 rounded-lg hover:bg-gray-100"
+          className="p-2 text-gray-600 hover:text-gray-900"
         >
-          {sidebarOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+          {sidebarOpen ? <FiX size={20} /> : <FiMenu size={20} />}
         </button>
       </div>
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full bg-white shadow-lg z-30 w-64 transform transition-transform duration-300 ${
+        className={`fixed top-0 left-0 h-full bg-white border-r border-gray-200 z-30 w-64 transform transition-transform duration-200 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0`}
       >
-        <div className="p-6 border-b">
-          <h1 className="text-2xl font-bold text-blue-600">LAUNDRY EXPRESS</h1>
-          <p className="text-sm text-gray-600 mt-1">POS System</p>
+        <div className="p-6 border-b border-gray-200">
+          <h1 className="text-xl font-light text-gray-900">Laundry Express</h1>
+          <p className="text-xs text-gray-500 mt-1">POS System</p>
         </div>
 
         <nav className="p-4">
-          <div className="mb-4 pb-4 border-b">
-            <p className="text-sm font-medium text-gray-700">{user.first_name || user.username}</p>
-            <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+          <div className="mb-6 pb-4 border-b border-gray-200">
+            <p className="text-sm font-medium text-gray-900">{user.first_name || user.username}</p>
+            <p className="text-xs text-gray-500 uppercase tracking-wide mt-1">{user.role}</p>
           </div>
 
-          <ul className="space-y-2">
+          <ul className="space-y-1">
             {menuItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -95,13 +95,13 @@ export default function Layout({ children }: LayoutProps) {
                   <Link
                     href={item.href}
                     onClick={() => setSidebarOpen(false)}
-                    className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition ${
+                    className={`flex items-center space-x-3 px-3 py-2.5 text-sm transition ${
                       isActive
-                        ? 'bg-blue-50 text-blue-600 font-medium'
-                        : 'text-gray-700 hover:bg-gray-100'
+                        ? 'text-gray-900 font-medium bg-gray-50'
+                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
                     }`}
                   >
-                    <Icon size={20} />
+                    <Icon size={18} />
                     <span>{item.label}</span>
                   </Link>
                 </li>
@@ -111,10 +111,10 @@ export default function Layout({ children }: LayoutProps) {
 
           <button
             onClick={handleLogout}
-            className="mt-4 w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-red-600 hover:bg-red-50 transition"
+            className="mt-6 w-full flex items-center space-x-3 px-3 py-2.5 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition"
           >
-            <FiLogOut size={20} />
-            <span>Keluar</span>
+            <FiLogOut size={18} />
+            <span>Sign Out</span>
           </button>
         </nav>
       </aside>
@@ -122,14 +122,14 @@ export default function Layout({ children }: LayoutProps) {
       {/* Overlay for mobile */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
+          className="fixed inset-0 bg-black bg-opacity-20 z-20 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* Main content */}
       <main className="lg:ml-64 pt-16 lg:pt-0">
-        <div className="p-4 lg:p-8">{children}</div>
+        <div className="p-6 lg:p-8">{children}</div>
       </main>
     </div>
   );

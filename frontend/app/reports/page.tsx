@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { transactionAPI } from '@/lib/api';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { FiDownload, FiFilter } from 'react-icons/fi';
 
 export default function ReportsPage() {
   const [reports, setReports] = useState<any>(null);
@@ -38,60 +37,59 @@ export default function ReportsPage() {
   };
 
   const periodLabels: any = {
-    daily: 'Harian',
-    weekly: 'Mingguan',
-    monthly: 'Bulanan',
+    daily: 'Daily',
+    weekly: 'Weekly',
+    monthly: 'Monthly',
   };
 
   return (
     <Layout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Laporan Transaksi</h1>
-          <p className="text-gray-600 mt-1">Laporan transaksi harian, mingguan, dan bulanan</p>
+          <h1 className="text-2xl font-light text-gray-900">Reports</h1>
+          <p className="text-sm text-gray-500 mt-1">Transaction reports</p>
         </div>
 
         {/* Filter */}
-        <div className="bg-white rounded-lg shadow-md p-6">
+        <div className="bg-white border border-gray-200 rounded p-6">
           <form onSubmit={handleFilter} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Periode</label>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Period</label>
                 <select
                   value={period}
                   onChange={(e) => setPeriod(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                 >
-                  <option value="daily">Harian</option>
-                  <option value="weekly">Mingguan</option>
-                  <option value="monthly">Bulanan</option>
+                  <option value="daily">Daily</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Dari Tanggal</label>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">From Date</label>
                 <input
                   type="date"
                   value={dateFrom}
                   onChange={(e) => setDateFrom(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Sampai Tanggal</label>
+                <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">To Date</label>
                 <input
                   type="date"
                   value={dateTo}
                   onChange={(e) => setDateTo(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                 />
               </div>
               <div className="flex items-end">
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center justify-center space-x-2"
+                  className="w-full bg-gray-900 text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition"
                 >
-                  <FiFilter />
-                  <span>Filter</span>
+                  Filter
                 </button>
               </div>
             </div>
@@ -100,86 +98,54 @@ export default function ReportsPage() {
 
         {/* Summary Cards */}
         {reports && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Total Transaksi</h3>
-              <p className="text-3xl font-bold text-blue-600">{reports.total_transactions || 0}</p>
-              <p className="text-sm text-gray-500 mt-1">Periode: {periodLabels[period]}</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white border border-gray-200 rounded p-6">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Total Transactions</p>
+              <p className="text-3xl font-light text-gray-900">{reports.total_transactions || 0}</p>
+              <p className="text-xs text-gray-500 mt-2">Period: {periodLabels[period]}</p>
             </div>
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Total Omzet</h3>
-              <p className="text-3xl font-bold text-green-600">
-                {formatCurrency(reports.total_revenue || 0)}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">Periode: {periodLabels[period]}</p>
+            <div className="bg-white border border-gray-200 rounded p-6">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Total Revenue</p>
+              <p className="text-3xl font-light text-gray-900">{formatCurrency(reports.total_revenue || 0)}</p>
+              <p className="text-xs text-gray-500 mt-2">Period: {periodLabels[period]}</p>
             </div>
-            <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Total Dibayar</h3>
-              <p className="text-3xl font-bold text-purple-600">
-                {formatCurrency(reports.total_paid || 0)}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">Periode: {periodLabels[period]}</p>
+            <div className="bg-white border border-gray-200 rounded p-6">
+              <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Total Paid</p>
+              <p className="text-3xl font-light text-gray-900">{formatCurrency(reports.total_paid || 0)}</p>
+              <p className="text-xs text-gray-500 mt-2">Period: {periodLabels[period]}</p>
             </div>
           </div>
         )}
 
         {/* Transactions Table */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="bg-white border border-gray-200 rounded overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-gray-800">Detail Transaksi</h2>
+            <h2 className="text-sm font-medium text-gray-900 uppercase tracking-wide">Transaction Details</h2>
           </div>
           {loading ? (
-            <div className="p-6 text-center text-gray-500">Memuat data...</div>
+            <div className="p-8 text-center text-sm text-gray-400">Loading...</div>
           ) : !reports || !reports.transactions || reports.transactions.length === 0 ? (
-            <div className="p-6 text-center text-gray-500">Tidak ada data transaksi</div>
+            <div className="p-8 text-center text-sm text-gray-400">No transaction data</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full">
+                <thead className="bg-gray-50 border-b border-gray-200">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Invoice
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Pelanggan
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Total
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                      Tanggal
-                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Invoice</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Customer</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Total</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Status</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Date</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-200">
                   {reports.transactions.map((transaction: any) => (
                     <tr key={transaction.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
-                          {transaction.invoice_number}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{transaction.customer_name}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900">
-                          {formatCurrency(transaction.final_amount)}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-1 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                          {transaction.status_display}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-500">
-                          {formatDate(transaction.received_at)}
-                        </div>
-                      </td>
+                      <td className="px-6 py-4 text-sm text-gray-900 font-medium">{transaction.invoice_number}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900">{transaction.customer_name}</td>
+                      <td className="px-6 py-4 text-sm text-gray-900">{formatCurrency(transaction.final_amount)}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600">{transaction.status_display}</td>
+                      <td className="px-6 py-4 text-sm text-gray-600">{formatDate(transaction.received_at)}</td>
                     </tr>
                   ))}
                 </tbody>

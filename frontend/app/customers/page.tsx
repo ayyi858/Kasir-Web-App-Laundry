@@ -3,8 +3,7 @@
 import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { customerAPI } from '@/lib/api';
-import { formatDate } from '@/lib/utils';
-import { FiPlus, FiSearch, FiEdit, FiTrash2, FiEye } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 
 export default function CustomersPage() {
   const [customers, setCustomers] = useState<any[]>([]);
@@ -82,8 +81,8 @@ export default function CustomersPage() {
       <div className="space-y-6">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">Pelanggan</h1>
-            <p className="text-gray-600 mt-1">Kelola data pelanggan</p>
+            <h1 className="text-2xl font-light text-gray-900">Customers</h1>
+            <p className="text-sm text-gray-500 mt-1">Manage customer data</p>
           </div>
           <button
             onClick={() => {
@@ -91,93 +90,74 @@ export default function CustomersPage() {
               setFormData({ name: '', phone: '', email: '', address: '' });
               setShowModal(true);
             }}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+            className="bg-gray-900 text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition"
           >
-            <FiPlus />
-            <span>Tambah Pelanggan</span>
+            Add Customer
           </button>
         </div>
 
         {/* Search */}
-        <form onSubmit={handleSearch} className="flex space-x-2">
+        <form onSubmit={handleSearch} className="flex gap-2">
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Cari pelanggan..."
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            placeholder="Search customers..."
+            className="flex-1 px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
           />
           <button
             type="submit"
-            className="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200"
+            className="px-4 py-2 border border-gray-200 rounded text-sm hover:bg-gray-50 transition"
           >
-            <FiSearch />
+            Search
           </button>
         </form>
 
         {/* Table */}
-        <div className="bg-white rounded-lg shadow-md overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+        <div className="bg-white border border-gray-200 rounded overflow-hidden">
+          <table className="min-w-full">
+            <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Nama
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Telepon
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Transaksi
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">
-                  Aksi
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Phone</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Email</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Transactions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                    Memuat data...
+                  <td colSpan={5} className="px-6 py-8 text-center text-sm text-gray-400">
+                    Loading...
                   </td>
                 </tr>
               ) : customers.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                    Tidak ada data pelanggan
+                  <td colSpan={5} className="px-6 py-8 text-center text-sm text-gray-400">
+                    No customers found
                   </td>
                 </tr>
               ) : (
                 customers.map((customer) => (
                   <tr key={customer.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{customer.name}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{customer.phone}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{customer.email || '-'}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-500">{customer.transaction_count || 0}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex space-x-2">
+                    <td className="px-6 py-4 text-sm text-gray-900">{customer.name}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">{customer.phone}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">{customer.email || '-'}</td>
+                    <td className="px-6 py-4 text-sm text-gray-600">{customer.transaction_count || 0}</td>
+                    <td className="px-6 py-4">
+                      <div className="flex gap-2">
                         <button
                           onClick={() => handleEdit(customer)}
-                          className="text-blue-600 hover:text-blue-900"
+                          className="text-gray-600 hover:text-gray-900"
                         >
-                          <FiEdit />
+                          <FiEdit2 size={16} />
                         </button>
                         <button
                           onClick={() => handleDelete(customer.id)}
-                          className="text-red-600 hover:text-red-900"
+                          className="text-gray-600 hover:text-gray-900"
                         >
-                          <FiTrash2 />
+                          <FiTrash2 size={16} />
                         </button>
                       </div>
                     </td>
@@ -190,60 +170,60 @@ export default function CustomersPage() {
 
         {/* Modal */}
         {showModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-full max-w-md">
-              <h2 className="text-xl font-bold mb-4">
-                {editingCustomer ? 'Edit Pelanggan' : 'Tambah Pelanggan'}
+          <div className="fixed inset-0 bg-black bg-opacity-20 flex items-center justify-center z-50">
+            <div className="bg-white rounded border border-gray-200 p-6 w-full max-w-md">
+              <h2 className="text-lg font-light text-gray-900 mb-4">
+                {editingCustomer ? 'Edit Customer' : 'Add Customer'}
               </h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Nama *
+                  <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                    Name *
                   </label>
                   <input
                     type="text"
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Telepon *
+                  <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                    Phone *
                   </label>
                   <input
                     type="text"
                     required
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Email</label>
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">Address</label>
                   <textarea
                     value={formData.address}
                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                     rows={3}
                   />
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex gap-2 pt-2">
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+                    className="flex-1 bg-gray-900 text-white py-2 rounded text-sm font-medium hover:bg-gray-800 transition"
                   >
-                    Simpan
+                    Save
                   </button>
                   <button
                     type="button"
@@ -251,9 +231,9 @@ export default function CustomersPage() {
                       setShowModal(false);
                       setEditingCustomer(null);
                     }}
-                    className="flex-1 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300"
+                    className="flex-1 bg-gray-100 text-gray-700 py-2 rounded text-sm font-medium hover:bg-gray-200 transition"
                   >
-                    Batal
+                    Cancel
                   </button>
                 </div>
               </form>

@@ -4,12 +4,6 @@ import { useState, useEffect } from 'react';
 import Layout from '@/components/Layout';
 import { dashboardAPI } from '@/lib/api';
 import { formatCurrency } from '@/lib/utils';
-import {
-  FiDollarSign,
-  FiShoppingBag,
-  FiTrendingUp,
-  FiClock,
-} from 'react-icons/fi';
 
 export default function DashboardPage() {
   const [stats, setStats] = useState<any>(null);
@@ -34,87 +28,59 @@ export default function DashboardPage() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-gray-500">Memuat data...</div>
+          <div className="text-sm text-gray-400">Loading...</div>
         </div>
       </Layout>
     );
   }
 
-  const statCards = [
-    {
-      title: 'Total Transaksi',
-      value: stats?.total_transactions || 0,
-      icon: FiShoppingBag,
-      color: 'bg-blue-500',
-    },
-    {
-      title: 'Total Omzet',
-      value: formatCurrency(stats?.total_revenue || 0),
-      icon: FiDollarSign,
-      color: 'bg-green-500',
-    },
-    {
-      title: 'Omzet Hari Ini',
-      value: formatCurrency(stats?.today_revenue || 0),
-      icon: FiTrendingUp,
-      color: 'bg-yellow-500',
-    },
-    {
-      title: 'Order Aktif',
-      value: stats?.active_orders || 0,
-      icon: FiClock,
-      color: 'bg-purple-500',
-    },
-  ];
-
   return (
     <Layout>
-      <div className="space-y-6">
+      <div className="space-y-8">
+        {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-          <p className="text-gray-600 mt-1">Ringkasan aktivitas laundry</p>
+          <h1 className="text-2xl font-light text-gray-900">Dashboard</h1>
+          <p className="text-sm text-gray-500 mt-1">Overview</p>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {statCards.map((card, index) => {
-            const Icon = card.icon;
-            return (
-              <div
-                key={index}
-                className="bg-white rounded-lg shadow-md p-6 border border-gray-200"
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm text-gray-600 mb-1">{card.title}</p>
-                    <p className="text-2xl font-bold text-gray-800">{card.value}</p>
-                  </div>
-                  <div className={`${card.color} p-3 rounded-lg`}>
-                    <Icon className="text-white" size={24} />
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        {/* Main Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Total Transaksi</p>
+            <p className="text-3xl font-light text-gray-900">{stats?.total_transactions || 0}</p>
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Total Omzet</p>
+            <p className="text-3xl font-light text-gray-900">{formatCurrency(stats?.total_revenue || 0)}</p>
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Omzet Hari Ini</p>
+            <p className="text-3xl font-light text-gray-900">{formatCurrency(stats?.today_revenue || 0)}</p>
+          </div>
+
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Order Aktif</p>
+            <p className="text-3xl font-light text-gray-900">{stats?.active_orders || 0}</p>
+          </div>
         </div>
 
         {/* Additional Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Transaksi Hari Ini</h3>
-            <p className="text-3xl font-bold text-blue-600">{stats?.today_transactions || 0}</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Transaksi Hari Ini</p>
+            <p className="text-2xl font-light text-gray-900">{stats?.today_transactions || 0}</p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Transaksi Bulan Ini</h3>
-            <p className="text-3xl font-bold text-green-600">{stats?.monthly_transactions || 0}</p>
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Transaksi Bulan Ini</p>
+            <p className="text-2xl font-light text-gray-900">{stats?.monthly_transactions || 0}</p>
           </div>
 
-          <div className="bg-white rounded-lg shadow-md p-6 border border-gray-200">
-            <h3 className="text-lg font-semibold text-gray-800 mb-2">Omzet Bulan Ini</h3>
-            <p className="text-3xl font-bold text-purple-600">
-              {formatCurrency(stats?.monthly_revenue || 0)}
-            </p>
+          <div className="bg-white border border-gray-200 rounded p-6">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-3">Omzet Bulan Ini</p>
+            <p className="text-2xl font-light text-gray-900">{formatCurrency(stats?.monthly_revenue || 0)}</p>
           </div>
         </div>
       </div>

@@ -117,8 +117,8 @@ export default function NewTransactionPage() {
     <Layout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800">Transaksi Baru</h1>
-          <p className="text-gray-600 mt-1">Buat transaksi laundry baru</p>
+          <h1 className="text-2xl font-light text-gray-900">New Transaction</h1>
+          <p className="text-sm text-gray-500 mt-1">Create new transaction</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -126,19 +126,19 @@ export default function NewTransactionPage() {
             {/* Form Section */}
             <div className="lg:col-span-2 space-y-6">
               {/* Customer Selection */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-lg font-semibold mb-4">Informasi Pelanggan</h2>
+              <div className="bg-white border border-gray-200 rounded p-6">
+                <h2 className="text-sm font-medium text-gray-900 mb-4 uppercase tracking-wide">Customer Information</h2>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Pilih Pelanggan *
+                  <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                    Select Customer *
                   </label>
                   <select
                     required
                     value={formData.customer}
                     onChange={(e) => setFormData({ ...formData, customer: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   >
-                    <option value="">-- Pilih Pelanggan --</option>
+                    <option value="">-- Select Customer --</option>
                     {customers.map((customer) => (
                       <option key={customer.id} value={customer.id}>
                         {customer.name} - {customer.phone}
@@ -149,18 +149,18 @@ export default function NewTransactionPage() {
               </div>
 
               {/* Items Section */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-lg font-semibold mb-4">Layanan</h2>
-                <div className="flex space-x-2 mb-4">
+              <div className="bg-white border border-gray-200 rounded p-6">
+                <h2 className="text-sm font-medium text-gray-900 mb-4 uppercase tracking-wide">Services</h2>
+                <div className="flex gap-2 mb-4">
                   <select
                     value={selectedService?.id || ''}
                     onChange={(e) => {
                       const service = services.find((s) => s.id === parseInt(e.target.value));
                       setSelectedService(service || null);
                     }}
-                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    className="flex-1 px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   >
-                    <option value="">-- Pilih Layanan --</option>
+                    <option value="">-- Select Service --</option>
                     {services.map((service) => (
                       <option key={service.id} value={service.id}>
                         {service.name} - {formatCurrency(service.price_per_unit)}/{service.unit}
@@ -173,58 +173,47 @@ export default function NewTransactionPage() {
                     step="0.1"
                     value={itemQuantity}
                     onChange={(e) => setItemQuantity(e.target.value)}
-                    placeholder="Jumlah"
-                    className="w-32 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    placeholder="Qty"
+                    className="w-24 px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   />
                   <button
                     type="button"
                     onClick={addItem}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center space-x-2"
+                    className="bg-gray-900 text-white px-4 py-2 rounded text-sm font-medium hover:bg-gray-800 transition"
                   >
-                    <FiPlus />
-                    <span>Tambah</span>
+                    Add
                   </button>
                 </div>
 
                 {/* Items List */}
                 {items.length > 0 && (
-                  <div className="border border-gray-200 rounded-lg overflow-hidden">
+                  <div className="border border-gray-200 rounded overflow-hidden">
                     <table className="min-w-full">
-                      <thead className="bg-gray-50">
+                      <thead className="bg-gray-50 border-b border-gray-200">
                         <tr>
-                          <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                            Layanan
-                          </th>
-                          <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                            Jumlah
-                          </th>
-                          <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                            Harga
-                          </th>
-                          <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                            Subtotal
-                          </th>
-                          <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">
-                            Aksi
-                          </th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Service</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Qty</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Price</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wide">Subtotal</th>
+                          <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wide"></th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
                         {items.map((item, index) => (
-                          <tr key={index}>
-                            <td className="px-4 py-2">{item.service_name}</td>
-                            <td className="px-4 py-2">{item.quantity}</td>
-                            <td className="px-4 py-2">{formatCurrency(item.unit_price)}</td>
-                            <td className="px-4 py-2 font-medium">
+                          <tr key={index} className="hover:bg-gray-50">
+                            <td className="px-4 py-2 text-sm text-gray-900">{item.service_name}</td>
+                            <td className="px-4 py-2 text-sm text-gray-600">{item.quantity}</td>
+                            <td className="px-4 py-2 text-sm text-gray-600">{formatCurrency(item.unit_price)}</td>
+                            <td className="px-4 py-2 text-sm text-gray-900 font-medium">
                               {formatCurrency(item.subtotal)}
                             </td>
                             <td className="px-4 py-2">
                               <button
                                 type="button"
                                 onClick={() => removeItem(index)}
-                                className="text-red-600 hover:text-red-800"
+                                className="text-gray-600 hover:text-gray-900"
                               >
-                                <FiTrash2 />
+                                <FiTrash2 size={16} />
                               </button>
                             </td>
                           </tr>
@@ -236,26 +225,26 @@ export default function NewTransactionPage() {
               </div>
 
               {/* Notes */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-lg font-semibold mb-4">Catatan</h2>
+              <div className="bg-white border border-gray-200 rounded p-6">
+                <h2 className="text-sm font-medium text-gray-900 mb-4 uppercase tracking-wide">Notes</h2>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                   rows={3}
-                  placeholder="Catatan tambahan..."
+                  placeholder="Additional notes..."
                 />
               </div>
             </div>
 
             {/* Summary Section */}
             <div className="space-y-6">
-              <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-                <h2 className="text-lg font-semibold mb-4">Ringkasan</h2>
+              <div className="bg-white border border-gray-200 rounded p-6 sticky top-4">
+                <h2 className="text-sm font-medium text-gray-900 mb-4 uppercase tracking-wide">Summary</h2>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Estimasi Selesai
+                    <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                      Estimated Completion
                     </label>
                     <input
                       type="datetime-local"
@@ -263,36 +252,36 @@ export default function NewTransactionPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, estimated_completion: e.target.value })
                       }
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                     />
                   </div>
 
-                  <div className="border-t pt-4 space-y-2">
-                    <div className="flex justify-between">
+                  <div className="border-t border-gray-200 pt-4 space-y-3">
+                    <div className="flex justify-between text-sm">
                       <span className="text-gray-600">Subtotal:</span>
-                      <span className="font-medium">{formatCurrency(totals.subtotal)}</span>
+                      <span className="text-gray-900 font-medium">{formatCurrency(totals.subtotal)}</span>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Diskon:
+                      <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                        Discount
                       </label>
                       <input
                         type="number"
                         min="0"
                         value={formData.discount}
                         onChange={(e) => setFormData({ ...formData, discount: e.target.value })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                       />
                     </div>
-                    <div className="flex justify-between text-lg font-bold border-t pt-2">
-                      <span>Total:</span>
-                      <span className="text-blue-600">{formatCurrency(totals.total)}</span>
+                    <div className="flex justify-between text-base font-light border-t border-gray-200 pt-3">
+                      <span className="text-gray-900">Total:</span>
+                      <span className="text-gray-900">{formatCurrency(totals.total)}</span>
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Jumlah Bayar *
+                    <label className="block text-xs font-medium text-gray-700 mb-2 uppercase tracking-wide">
+                      Amount Paid *
                     </label>
                     <input
                       type="number"
@@ -300,14 +289,11 @@ export default function NewTransactionPage() {
                       min="0"
                       value={formData.paid_amount}
                       onChange={(e) => setFormData({ ...formData, paid_amount: e.target.value })}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 text-sm"
                     />
                     {parseFloat(formData.paid_amount) >= totals.total && (
-                      <div className="mt-2 text-sm text-green-600">
-                        Kembalian:{' '}
-                        {formatCurrency(
-                          parseFloat(formData.paid_amount) - totals.total
-                        )}
+                      <div className="mt-2 text-xs text-gray-600">
+                        Change: {formatCurrency(parseFloat(formData.paid_amount) - totals.total)}
                       </div>
                     )}
                   </div>
@@ -315,10 +301,9 @@ export default function NewTransactionPage() {
                   <button
                     type="submit"
                     disabled={loading || items.length === 0}
-                    className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-gray-900 text-white py-3 rounded text-sm font-medium hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition"
                   >
-                    <FiSave />
-                    <span>{loading ? 'Menyimpan...' : 'Simpan Transaksi'}</span>
+                    {loading ? 'Saving...' : 'Save Transaction'}
                   </button>
                 </div>
               </div>

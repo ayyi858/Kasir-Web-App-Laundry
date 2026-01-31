@@ -18,16 +18,65 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background: #f9fafb;
+}
+
+/* Override browser default select styling */
+select {
+  background-color: white;
+  color: #111827;
+}
+
+select option {
+  background-color: white;
+  color: #111827;
+  padding: 8px;
+}
+
+/* Remove blue highlight - ini sulit diubah karena browser default */
+/* Tapi kita bisa set warna background dan text */
+select:focus {
+  outline: none;
+  border-color: #9ca3af;
+}
+
+/* Untuk option yang ter-select, gunakan gray */
+select option:checked {
+  background-color: #f3f4f6;
+  color: #111827;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Custom select styling untuk menghilangkan warna biru default */
+select option {
+  background-color: white;
+  color: #111827;
+}
+
+select option:checked,
+select option:focus {
+  background-color: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Remove blue highlight from select dropdown */
+select:focus {
+  outline: none;
+}
+
+/* Style untuk select yang sedang dibuka */
+select:focus option:checked {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+/* Override browser default blue */
+select option:checked {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
 }
